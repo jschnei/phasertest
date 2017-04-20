@@ -2,7 +2,6 @@
 var PhaserGame = (function () {
     function PhaserGame() {
         this.score = 0;
-        this.score = 0;
         this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', { preload: this.preload,
             create: this.create,
             update: this.update
@@ -41,19 +40,19 @@ var PhaserGame = (function () {
             star.body.gravity.y = 6;
             star.body.bounce.y = 0.7 + Math.random() * 0.2;
         }
-        this.scoreText = this.game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+        this.scoreText = this.game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+        this.score = 0;
         this.cursors = this.game.input.keyboard.createCursorKeys();
-    };
-    PhaserGame.prototype.collectStar = function (player, star) {
-        star.kill();
-        this.score += 10;
-        this.scoreText.text = 'Score: ' + this.score;
     };
     PhaserGame.prototype.update = function () {
         this.game.debug.text(String(this.game.time.fps), 2, 14, "#00ff00");
         var hitPlatform = this.game.physics.arcade.collide(this.player, this.platforms);
         this.game.physics.arcade.collide(this.stars, this.platforms);
-        this.game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
+        this.game.physics.arcade.overlap(this.player, this.stars, function (player, star) {
+            star.kill();
+            this.score += 10;
+            this.scoreText.text = 'Score: ' + this.score;
+        }, null, this);
         this.player.body.velocity.x = 0;
         if (this.cursors.left.isDown) {
             this.player.body.velocity.x = -150;

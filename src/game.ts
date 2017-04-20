@@ -10,7 +10,6 @@ class PhaserGame {
     stars: Phaser.Group;
 
     constructor() {
-        this.score = 0;
         this.game = new Phaser.Game(800, 
                                     600, 
                                     Phaser.AUTO, 
@@ -69,16 +68,11 @@ class PhaserGame {
             star.body.bounce.y = 0.7 + Math.random() * 0.2;
         }
 
-        this.scoreText = this.game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+        this.scoreText = this.game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+        this.score = 0;
+
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
-    }
-
-    collectStar (player, star) {
-        star.kill();
-
-        this.score += 10;
-        this.scoreText.text = 'Score: ' + this.score;
     }
 
     update() {
@@ -86,7 +80,13 @@ class PhaserGame {
         var hitPlatform:boolean = this.game.physics.arcade.collide(this.player, this.platforms);
 
         this.game.physics.arcade.collide(this.stars, this.platforms);
-        this.game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
+        this.game.physics.arcade.overlap(this.player, this.stars, 
+            function (player, star) {
+                star.kill();
+
+                this.score += 10;
+                this.scoreText.text = 'Score: ' + this.score;
+            }, null, this);
 
         this.player.body.velocity.x = 0;
 
@@ -112,6 +112,9 @@ class PhaserGame {
             this.player.body.velocity.y = -350;
         }
     }
+
+    collectStar 
+
 }
 
 window.onload = () => {
