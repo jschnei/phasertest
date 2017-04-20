@@ -26,6 +26,8 @@ class PhaserGame {
         this.game.load.image('ground', 'assets/platform.png');
         this.game.load.image('star', 'assets/star.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+
+        this.game.time.advancedTiming = true;
     }
 
     create() {
@@ -80,6 +82,7 @@ class PhaserGame {
     }
 
     update() {
+        this.game.debug.text(String(this.game.time.fps), 2, 14, "#00ff00");
         var hitPlatform:boolean = this.game.physics.arcade.collide(this.player, this.platforms);
 
         this.game.physics.arcade.collide(this.stars, this.platforms);

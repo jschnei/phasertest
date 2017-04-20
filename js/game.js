@@ -13,6 +13,7 @@ var PhaserGame = (function () {
         this.game.load.image('ground', 'assets/platform.png');
         this.game.load.image('star', 'assets/star.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+        this.game.time.advancedTiming = true;
     };
     PhaserGame.prototype.create = function () {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -49,6 +50,7 @@ var PhaserGame = (function () {
         this.scoreText.text = 'Score: ' + this.score;
     };
     PhaserGame.prototype.update = function () {
+        this.game.debug.text(String(this.game.time.fps), 2, 14, "#00ff00");
         var hitPlatform = this.game.physics.arcade.collide(this.player, this.platforms);
         this.game.physics.arcade.collide(this.stars, this.platforms);
         this.game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
