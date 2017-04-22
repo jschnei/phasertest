@@ -1,4 +1,8 @@
-/// <reference path="../tsd/phaser.d.ts" />
+var collectStar = function (player, star) {
+    star.kill();
+    this.score += 10;
+    this.scoreText.text = 'Your Score: ' + this.score;
+};
 var PhaserGame = (function () {
     function PhaserGame() {
         this.score = 0;
@@ -48,11 +52,7 @@ var PhaserGame = (function () {
         this.game.debug.text(String(this.game.time.fps), 2, 14, "#00ff00");
         var hitPlatform = this.game.physics.arcade.collide(this.player, this.platforms);
         this.game.physics.arcade.collide(this.stars, this.platforms);
-        this.game.physics.arcade.overlap(this.player, this.stars, function (player, star) {
-            star.kill();
-            this.score += 10;
-            this.scoreText.text = 'Score: ' + this.score;
-        }, null, this);
+        this.game.physics.arcade.overlap(this.player, this.stars, collectStar, null, this);
         this.player.body.velocity.x = 0;
         if (this.cursors.left.isDown) {
             this.player.body.velocity.x = -150;
@@ -66,7 +66,6 @@ var PhaserGame = (function () {
             this.player.animations.stop();
             this.player.frame = 4;
         }
-        //  Allow the player to jump if they are touching the ground.
         if (this.cursors.up.isDown && this.player.body.touching.down && hitPlatform) {
             this.player.body.velocity.y = -350;
         }
@@ -76,3 +75,4 @@ var PhaserGame = (function () {
 window.onload = function () {
     var game = new PhaserGame();
 };
+//# sourceMappingURL=game.js.map

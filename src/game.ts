@@ -1,5 +1,11 @@
 /// <reference path="../tsd/phaser.d.ts" />
 
+const collectStar = function (player: Phaser.Sprite, star: Phaser.Sprite) {
+    star.kill();
+    this.score += 10;
+    this.scoreText.text = 'Your Score: ' + this.score;
+}
+
 class PhaserGame {
     cursors: Phaser.CursorKeys;
     game: Phaser.Game;
@@ -80,13 +86,7 @@ class PhaserGame {
         var hitPlatform:boolean = this.game.physics.arcade.collide(this.player, this.platforms);
 
         this.game.physics.arcade.collide(this.stars, this.platforms);
-        this.game.physics.arcade.overlap(this.player, this.stars, 
-            function (player, star) {
-                star.kill();
-
-                this.score += 10;
-                this.scoreText.text = 'Score: ' + this.score;
-            }, null, this);
+        this.game.physics.arcade.overlap(this.player, this.stars, collectStar, null, this);
 
         this.player.body.velocity.x = 0;
 
@@ -112,8 +112,6 @@ class PhaserGame {
             this.player.body.velocity.y = -350;
         }
     }
-
-    collectStar 
 
 }
 
